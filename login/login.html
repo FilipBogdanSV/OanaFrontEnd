@@ -1,0 +1,51 @@
+<html>
+<head>
+    <meta charset="utf=8">
+    <link rel="stylesheet" style="text/css" href="mail.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.form-signin').each(function (index, form) {
+            var view = $(form);
+            view.submit(function () {
+                var requestData = view.serializeArray();
+                $.ajax({
+                    type: 'POST',
+                    contentType: "application/json",
+                    url: "http://localhost:8080/login",
+                    data: JSON.stringify(requestData),
+                    success: function (responseData) {
+                        var responseAsString = responseData;
+                        if (responseData instanceof Object) {
+                            responseAsString = JSON.stringify(responseData);
+                        }
+                        alert(responseAsString);
+                    },
+                    error: function (request, status, error) {
+                        alert("Error: " + request.responseText);
+                    }
+                });
+
+                return false;
+            });
+        });
+    });
+</script>
+<body>
+<div class="loginBox">
+    <img src="us1.jpg" class="al">
+    <h1>Login Here</h1>
+    <form id="loginForm" class="form-signin" role="form">
+        <p>Username</p>
+        <input type="text" placeholder="Enter Username" class="form-signin" name="username">
+        <p>Password</p>
+        <input type="password" placeholder="Enter Password" class="form-signin" name="password"><br>
+        <input type="submit" value="Login"><br>
+        <a href="#">Lost your password?</a><br>
+        <a href="#">Don't have an account?</a>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!--
+
+    (c) 2003-2018 MuleSoft, Inc. The software in this package is published under the terms of the Commercial Free Software license V.1 a copy of which has been included with this distribution in the LICENSE.md file.
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.js"></script>
+</head>
+<body>
+<style>
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+
+    .form-signin {
+        max-width: 500px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    .form-signin .form-signin-heading, .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+
+    .form-signin .checkbox {
+        font-weight: normal;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+
+    .form-signin input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .required {
+        color: red;
+    }
+
+    .row {
+        background-color: #fff;
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.form-signin').each(function (index, form) {
+            var view = $(form);
+            view.submit(function () {
+                var requestData = view.serializeArray();
+                $.ajax({
+                    type: 'Get',
+                    url: view.find("input[name=opPath]").val(),
+                    data: requestData,
+                    success: function (responseData) {
+                        var responseAsString = responseData;
+                        if (responseData instanceof Object) {
+                            responseAsString = JSON.stringify(responseData);
+                        }
+                        alert(responseAsString);
+                    },
+                    error: function (request, status, error) {
+                        alert("Error: " + request.responseText);
+                    }
+                });
+
+                return false;
+            });
+        });
+    });
+
+
+</script>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-3 panel-group" id="accordion1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title form-signin-heading">
+                        <a data-toggle="collapse" data-parent="#accordion1"
+                           href="#sendMessage">Send Message To Server</a>
+                    </h2>
+                </div>
+                <div id="sendMessage" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <form id="sendMessageForm" class="form-signin" role="form">
+                            <input type="hidden" name="opPath" value="http://localhost:8080/messageEndpoint"/>
+                            <label>Message Content</label>
+                            <input type="text" name="messageContent" class="form-control"/>
+                            <br/>
+                            <input class="btn btn-lg btn-primary btn-block" type="submit"
+                                   value="Send"/><br/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
