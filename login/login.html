@@ -15,7 +15,7 @@
                     type: 'POST',
                     contentType: "application/json",
                     url: "http://localhost:8080/login",
-                    data: JSON.stringify(requestData),
+                    data:  JSON.stringify({ username: $('input[name="username"]').val(), password: $('input[name="password"]').val() }),
                     success: function (responseData) {
                         var responseAsString = responseData;
                         if (responseData instanceof Object) {
